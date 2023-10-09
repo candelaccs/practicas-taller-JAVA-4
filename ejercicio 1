@@ -174,3 +174,58 @@ public class Circulo extends Figuras {
    
 }
 
+MAIN
+
+
+import PaqueteLectura.Lector;
+
+public class Prueba {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        
+        double ladoUno;
+        double ladoDos;
+        double ladoTres;
+        double radio;
+        String relleno;
+        String linea;
+        
+        System.out.println (" ingrese lado uno ");
+        ladoUno = Lector.leerDouble();
+        System.out.println (" ingrese lado dos ");
+        ladoDos = Lector.leerDouble();
+        System.out.println (" ingrese lado tres ");
+        ladoTres = Lector.leerDouble();
+        System.out.println (" ingrese el color de relleno");
+        relleno = Lector.leerString();
+        System.out.println ( " ingrese el color de linea ");
+        linea = Lector.leerString();
+        
+        triangulo tri = new triangulo (ladoUno, ladoDos, ladoTres, relleno, linea);
+        tri.toString();
+        tri.despintar();
+        tri.toString();
+        
+        
+        System.out.println (" ingrse el radio del circulo ");
+        radio = Lector.leerDouble();
+        System.out.println (" ingrese el color de relleno");
+        relleno = Lector.leerString();
+        System.out.println ( " ingrese el color de linea ");
+        linea = Lector.leerString();
+        
+        
+        Circulo cir = new Circulo (radio, relleno, linea);
+        cir.toString();
+        cir.despintar();
+        cir.toString();
+        
+        
+        
+    }
+    
+}
+
