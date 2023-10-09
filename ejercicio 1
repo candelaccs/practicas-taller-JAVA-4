@@ -16,6 +16,7 @@ clase FIGURAS
 
 public abstract class Figuras {
     
+    
     private String colorRelleno;
     private String colorLinea;
    
@@ -27,10 +28,17 @@ public abstract class Figuras {
     public String toString(){
         String aux = "Area: " + this.calcularArea() +
                      " CR: "  + getColorRelleno() + 
-                      " CL: " + getColorLinea();             
+                      " CL: " + getColorLinea() +
+                     " Perimetro: " + this.calcularPerimetro();
              return aux;
        }
 
+    
+    public void despintar (){
+        
+        setColorRelleno ("Blanco");
+        setColorLinea ("Negro");
+    }
     
     public String getColorRelleno(){
         return colorRelleno;       
@@ -47,22 +55,23 @@ public abstract class Figuras {
     
     public abstract double calcularArea();
     public abstract double calcularPerimetro();
+    
+   
      
-}
+
+    }
 
 
 
 clase TRIANGULO
 
-public class Triangulo extends Figuras {
-
-	private double ladoUno;
+public class triangulo extends Figuras {
+    
+    private double ladoUno;
 	private double ladoDos;
 	private double ladoTres;
-	private String colorRelleno;
-	private String colorLinea;
 	
-	public Triangulo (double elLadoUno, double elLadoDos, double elLadoTres,  String colorDeRelleno, String colorDeLinea){
+	public triangulo (double elLadoUno, double elLadoDos, double elLadoTres,  String colorDeRelleno, String colorDeLinea){
 		
                 super (colorDeRelleno, colorDeLinea); // por que debe ir como primera linea ? //
 		setLadoUno (elLadoUno); // por que si o si tengo que poner con mayus por mas que este declarada con minus? ej, ladoUno setLadoUno //
@@ -119,16 +128,17 @@ public class Triangulo extends Figuras {
           return aux;
                   
         }    
+
+    
 }
 
 
 clase CIRCULO
 
+
 public class Circulo extends Figuras {
     
     private double radio;
-    private String colorRelleno;
-    private String colorLinea;
    
     
     public Circulo (double elRadio, String elColorR, String elColorL){
@@ -172,10 +182,10 @@ public class Circulo extends Figuras {
         return aux;
     }
    
+    
 }
 
 MAIN
-
 
 import PaqueteLectura.Lector;
 
@@ -205,10 +215,9 @@ public class Prueba {
         linea = Lector.leerString();
         
         triangulo tri = new triangulo (ladoUno, ladoDos, ladoTres, relleno, linea);
-        tri.toString();
+        System.out.println (tri.toString()); // siempre poner system porq sino no va a imprimir
         tri.despintar();
-        tri.toString();
-        
+        System.out.println (tri.toString());
         
         System.out.println (" ingrse el radio del circulo ");
         radio = Lector.leerDouble();
@@ -219,13 +228,10 @@ public class Prueba {
         
         
         Circulo cir = new Circulo (radio, relleno, linea);
-        cir.toString();
+        System.out.println (cir.toString());
         cir.despintar();
-        cir.toString();
-        
-        
+        System.out.println (cir.toString());
         
     }
     
 }
-
