@@ -23,16 +23,16 @@ representación String de cada uno.
 NOTA: para cada método a implementar piense en que clase/s debe definir el método.
 
 
-clase empleado
+clase empleados
 
-public abstract class Empleado {
+public abstract class Empleados {
     
     private String nombre;
     private double sueldo;
     private int    antiguedad;
     
     
-    public Empleado (String nom, double sue, int antic){
+    public Empleados (String nom, double sue, int antic){
         
         setNombre (nom);
         setSueldo (sue);
@@ -63,95 +63,26 @@ public abstract class Empleado {
         this.antiguedad = antiguedad;
     }
     
-    /*public double calcularEfectividad (int cantidad, int total ){ // si hace lo mismo en los dos casos no hay una manera de hacerlo aca y que ya calcule? //
-        
-        return (total/cantidad);
-        
-    }*/
-    
-    /*public abstract double salario (); // preguntar si esta bien esto //
-    public double calcularSueldoACobrar (){ // idem //
-        
-        return (getSueldo() + ((getSueldo()*10/100)* getAntiguedad()));
-    }*/
-    
     public abstract double calcularEfectividad();
+    
     public double calcularSueldoACobrar (){
         
-        return getSueldo() + ((getSueldo()*10/100)* getAntiguedad());
+        return getSueldo() + ((getSueldo()*10/100)* getAntiguedad() + this.plusSueldo()); // en el this, se referencia a si mismo en la clase en la que se esta ejecutando //
     }
 
     @Override
     public String toString() {
         return  "nombre del empleado: " + nombre; 
     }
-    
-    
-}
 
-clase entrenador 
-
-public class Entrenador extends Empleado {
-    
-    
-    private int campeonatosGanados;
-    
-    public Entrenador (String nombre, double sueldo, int antiguedad, int campeonatos ){
-        
-        super(nombre, sueldo, antiguedad);
-        setCampeonatosGanados (campeonatos);
-        
-    }
-
-    public int getCampeonatosGanados() {
-        return campeonatosGanados;
-    }
-
-    public void setCampeonatosGanados(int campeonatosGanados) {
-        this.campeonatosGanados = campeonatosGanados;
-    }
-    
-    public double calcularEfectividad (){ // no anda
-        
-     
-        return  getCampeonatosGanados ()/ getAntiguedad ();
-    }
-    
-    public double devolverSueldo (){  // no anda //
-        
-        // sueldo + 10% del sueldo * antiguedad //
-        // suedlo + ((sueldo*10/100)* antiguedad) //
-        
-        // fijarme si INCLUYE o no los valores que me dan ej, si entre 1 y 4 incluye el 1 y el 4 //
-        
-        double aux= super.calcularSueldoACobrar();
-        
-        if ((getCampeonatosGanados () < 4 && getCampeonatosGanados ()> 1)) 
-              aux = aux + 5000;
-        else {
-            if ((getCampeonatosGanados () < 10 && getCampeonatosGanados ()> 5))
-                  aux =  aux + 30000;
-            else {
-                if ( getCampeonatosGanados () > 10)
-                   aux =  aux + 50000; 
-            }    
-        }
-        
-        return aux; 
-           
-    }
-
-    @Override
-    public String toString() {
-        return "Entrenador " + super.toString() + " su salario es " + devolverSueldo() + " su efectividad es " + calcularEfectividad ();
-    }   
+    public abstract double plusSueldo();
     
     
 }
 
 clase jugador
 
-public class Jugador extends Empleado {
+public class Jugador extends Empleados {
     
     private int goles;
     private int partidos;
@@ -191,14 +122,14 @@ public class Jugador extends Empleado {
         return aux;
     }
     
-    public double devolverSueldo (){
+    public double plusSueldo (){ 
         
         double aux;
         
         if ( calcularEfectividad () > 0.5) 
-            aux = getSueldo() + super.calcularSueldoACobrar();
+            aux = getSueldo(); // en el caso de que supere la efectividad se le manda este nuevo sueldo y suma el basico de calcular sueldo a cobrar
         else
-            aux = super.calcularSueldoACobrar();
+            aux = 0;
         
         return aux;
           
@@ -206,52 +137,66 @@ public class Jugador extends Empleado {
 
     @Override
     public String toString() {
-        return "Jugador " + super.toString() + " el salario es " + devolverSueldo() + " su efectividad es de  " + calcularEfectividad();
+        return "Jugador " + super.toString() + " el salario es " + super.calcularSueldoACobrar() + " su efectividad es de  " + calcularEfectividad();
     }
       
     
 }
 
-MAIN 
+clase entrenador
 
-public static void main(String[] args) {
-       
-        String nombre;
-        double sueldo;
-        int antiguedad;
-        int goles;
-        int partidos;
-        int campeonatos;
+public class Entrenador extends Empleados {
+    
+    
+    private int campeonatosGanados;
+    
+    public Entrenador (String nombre, double sueldo, int antiguedad, int campeonatos ){
         
-        /* System.out.println ( " ingrese un jugador " + "\n");
-        System.out.println ( " ingrese nombre ");
-        nombre = Lector.leerString();
-        System.out.println ( " ingrese su sueldo ");
-        sueldo = Lector.leerDouble();
-        System.out.println ( " ingrese su antiguedad ");
-        antiguedad = Lector.leerInt();
-        System.out.println (" ingrese los goles anotados ");
-        goles = Lector.leerInt();
-        System.out.println (" ingrese la cantidad de partidos en los que asistio ");
-        partidos = Lector.leerInt(); */
-        
-        Jugador j = new Jugador ("Juan", 10000, 3, 10, 3);
-        System.out.println (j.toString());
-        
-        
-        /*System.out.println ( " ingrese un entrenador " + "\n");
-        System.out.println ( " ingrese nombre ");
-        nombre = Lector.leerString();
-        System.out.println ( " ingrese su sueldo ");
-        sueldo = Lector.leerDouble();
-        System.out.println ( " ingrese su antiguedad ");
-        antiguedad = Lector.leerInt();
-        System.out.println (" ingrese la cantidad de campeonatos a los que asistio ");
-        campeonatos = Lector.leerInt(); */
-        
-        Entrenador n = new Entrenador ("Carlos", 10000, 5, 11);
-        System.out.println ( n.toString());
+        super(nombre, sueldo, antiguedad);
+        setCampeonatosGanados (campeonatos);
         
     }
+
+    public int getCampeonatosGanados() {
+        return campeonatosGanados;
+    }
+
+    public void setCampeonatosGanados(int campeonatosGanados) {
+        this.campeonatosGanados = campeonatosGanados;
+    }
+    
+    public double calcularEfectividad (){ // no anda
+  
+        return  getCampeonatosGanados ()/ getAntiguedad ();
+    }
+    
+    public double plusSueldo (){  // no anda //
+        
+        // sueldo + 10% del sueldo * antiguedad //
+        // suedlo + ((sueldo*10/100)* antiguedad) //
+        
+        // fijarme si INCLUYE o no los valores que me dan ej, si entre 1 y 4 incluye el 1 y el 4 //
+        
+        double aux=0;
+        
+        if ((getCampeonatosGanados () < 4 && getCampeonatosGanados ()> 1)) 
+              aux = 5000;
+        else {
+            if ((getCampeonatosGanados () < 10 && getCampeonatosGanados ()> 5))
+                  aux = 30000;
+            else {
+                if ( getCampeonatosGanados () > 10)
+                   aux = 50000; 
+            }    
+        }
+        return aux; 
+           
+    }
+
+    @Override
+    public String toString() {
+        return "Entrenador " + super.toString() + " su salario es " + super.calcularSueldoACobrar() + " su efectividad es " + calcularEfectividad ();
+    }   
+    
     
 }
