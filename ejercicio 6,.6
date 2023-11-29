@@ -1,0 +1,185 @@
+package ejercicio.pkg6;
+
+/**
+ *
+ * @author Alumno
+ */
+public abstract class SistemaMeteorologico {
+    
+  
+    
+    private Estacion estacion;
+    private double [][] matriz;
+    private int consecutivos;
+    private int inicial;
+    private int hasta; // esta bien tenerlo aca? a mi me parece que si porque lo voy a volver a necesitar //
+    
+    public SistemaMeteorologico (Estacion estacion, int con, int ini){
+        
+        setEstacion (estacion);
+        setConsecutivos (con);
+        setInicial (ini);
+        setHasta (this.inicial+this.consecutivos-1); // es para tener una referencia ya que luego lo voy a necesitar //
+        this.matriz = new double [this.hasta][11]; // lo hice con un this poorque creo que estaria mal tenner getters-setters de una matriz //
+    }
+
+    private void iniciarMatriz() { // inicializo temperatura en hirviendo //
+        
+        for (int i=0;i<this.hasta; i++){
+            for (int j=0; j<11; j++){
+                this.matriz [i][j]= 100;
+            }
+        }
+    }
+    public Estacion getEstacion() {
+        return estacion;
+    }
+
+    public void setEstacion(Estacion estacion) {
+        this.estacion = estacion;
+    }
+
+    public int getConsecutivos() {
+        return consecutivos;
+    }
+
+    public void setConsecutivos(int consecutivos) {
+        this.consecutivos = consecutivos;
+    }
+
+    public int getInicial() {
+        return inicial;
+    }
+
+    public void setInicial(int inicial) {
+        this.inicial = inicial;
+    }
+
+    public int getHasta() {
+        return hasta;
+    }
+
+    public void setHasta(int hasta) {
+        this.hasta = hasta;
+    }
+    
+    public void registrar (int anio, int mes, double temp){
+        
+        this.matriz [anio][mes] = temp;
+    }
+    
+    public double obtener (int anio, int mes ){ // esto me sirve para no tener que usar el this.matriz?? //
+        
+        double aux = this.matriz [anio][mes];
+        return aux;
+    }
+    
+    
+    public abstract String promedio (); // cada uno hace cosas diferentes  pero comparten el metodo //
+    
+    public String mayorTemp (){
+        
+        double maxTemp=0;
+        int maxAnio=0; // lo inicializo para que no me salte el cartel //
+        int maxMes=0;
+        
+        for (int i=0; i<this.hasta; i++){
+            for (int j=0; j<11; j++){
+                if (this.matriz [i][j] > maxTemp) {
+                  maxTemp = this.matriz [i][j]; // estaría mal acceder a la matriz de esta manera?, debería usar el metodo OBTENER? //
+                  maxAnio = i;
+                  maxMes = j;
+                }
+            }
+        }
+        
+        String aux = " la temperatura mas alta fue " + maxTemp + " en el año " + maxAnio + " y mes " + maxMes;
+        return aux;
+    }
+
+    @Override
+    public String toString() {
+        return "Sistema Meteorologico " + this.estacion.toString() + this.promedio(); // devuelvo datos de la estacion y promedio segun corresponda //
+    }
+    
+    
+}
+
+
+
+package ejercicio.pkg6;
+
+/**
+ *
+ * @author Alumno
+ */
+public class ReporteMes extends SistemaMeteorologico {
+ 
+    private Estacion estacion;
+    private int [][] matriz;
+    private int consecutivos;
+    private int inicial;
+    private int hasta;
+    
+    public  ReporteMes (Estacion est, int con, int ini){
+        
+        super (est, con, ini);
+        
+    }
+    
+    public String promedio (){
+        
+        double suma;
+        double prom;
+        String aux= "";
+        for (int j=0; j<12; j++){
+            suma=0;
+            for (int i=0; i<this.hasta; i++){
+                suma= suma + super.obtener(j, i); // i j
+            }
+            prom = suma/this.hasta;
+            aux = aux + " el promedio de temperatura del mes " + (j+1) + " es " + prom + "\n";
+        }
+        
+        return aux;
+    }
+    
+}
+
+
+
+/**
+ *
+ * @author Alumno
+ */
+public class ReporteAnio extends SistemaMeteorologico {
+    
+    private Estacion estacion;
+    private int [][] matriz; // esto no iria //
+    private int consecutivos;
+    private int inicial;
+    private int hasta;
+    
+    public ReporteAnio (Estacion est, int con, int ini){
+        
+        super(est,con,ini); // uso el constructor de la superclase //
+    }
+    
+    public String promedio (){
+        
+        String aux = "";
+        double suma;
+        double prom;
+        for (int i=0; i<this.hasta; i++){
+            suma = 0;
+            for (int j=0; j<12; j++){
+                suma = suma + obtener(i, j);
+            }
+            prom = suma/12; 
+            aux = aux + " el promedio del año " + i + " es " + prom + "\n";
+        }
+          
+        return aux; 
+    }
+    
+}
